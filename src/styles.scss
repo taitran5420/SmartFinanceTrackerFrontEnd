@@ -1,0 +1,336 @@
+/* ==================================================================== *
+ *  SMART FINANCE TRACKER — global base layer
+ *  Design tokens live in tailwind.css (@theme + per-theme palettes).
+ *  This file holds the reset, typography defaults, the per-theme page
+ *  atmosphere, and the cross-fade that plays when the theme switches.
+ * ==================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+  color: var(--color-ink);
+
+  /* per-theme atmosphere: two soft glows settling into the paper ground.
+     The glow hues are theme tokens, so this re-tints on theme switch. */
+  background:
+    radial-gradient(135% 90% at 82% -18%, var(--color-glow-1) 0%, transparent 46%) fixed,
+    radial-gradient(120% 80% at 8% 2%, var(--color-glow-2) 0%, transparent 44%) fixed,
+    var(--color-paper);
+  background-blend-mode: normal;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* The theme cross-fade: surfaces, text, borders and the page ground all
+   ease between palettes instead of snapping. */
+body,
+[data-theme] {
+  transition:
+    background-color 0.45s var(--ease-sf, ease),
+    color 0.45s var(--ease-sf, ease);
+}
+
+/* tabular instrument figures wherever the .num idiom is used */
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* a small uppercase mono eyebrow, reused across panels */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+:focus-visible {
+  outline: 2.5px solid var(--color-accent-deep);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==================================================================== *
+ *  SHARED COMPONENT LAYER
+ *  Theme-aware primitives reused across every feature so screens stay
+ *  consistent. All reference semantic tokens, so they re-tint per theme.
+ * ==================================================================== */
+
+/* --- page scaffolding --- */
+.sf-page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.sf-title {
+  margin: 4px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+.sf-subtitle {
+  margin: 6px 0 0;
+  color: var(--color-ink-soft);
+  font-size: 14px;
+  max-width: 60ch;
+}
+
+/* --- card --- */
+.sf-card {
+  padding: 20px;
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sf-lg);
+  box-shadow: 0 12px 30px -26px color-mix(in srgb, var(--color-ink) 60%, transparent);
+}
+.sf-card-title {
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+/* --- buttons --- */
+.sf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: var(--radius-sf);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    filter 0.18s var(--ease-sf, ease),
+    background-color 0.18s var(--ease-sf, ease),
+    border-color 0.18s var(--ease-sf, ease),
+    transform 0.06s ease;
+}
+.sf-btn:active {
+  transform: translateY(1px);
+}
+.sf-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.sf-btn-primary {
+  background: var(--color-accent-deep);
+  color: var(--color-on-accent);
+}
+.sf-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+.sf-btn-ghost {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border-color: var(--color-line);
+}
+.sf-btn-ghost:hover:not(:disabled) {
+  background: var(--color-surface-2);
+}
+.sf-btn-danger {
+  background: transparent;
+  color: var(--color-expense);
+  border-color: color-mix(in srgb, var(--color-expense) 45%, transparent);
+}
+.sf-btn-danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-expense) 12%, transparent);
+}
+.sf-btn-sm {
+  padding: 7px 11px;
+  font-size: 13px;
+}
+.sf-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: var(--radius-sf);
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  transition: background-color 0.16s var(--ease-sf, ease);
+}
+.sf-icon-btn:hover {
+  background: var(--color-surface-2);
+  color: var(--color-ink);
+}
+
+/* --- forms --- */
+.sf-field {
+  display: block;
+  margin-bottom: 16px;
+}
+.sf-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+}
+.sf-input,
+.sf-select {
+  width: 100%;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sf);
+  transition: border-color 0.16s var(--ease-sf, ease);
+}
+.sf-input:focus,
+.sf-select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+.sf-input.invalid,
+.sf-select.invalid {
+  border-color: var(--color-expense);
+}
+.sf-err {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--color-expense);
+}
+
+/* --- chips / badges --- */
+.sf-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  background: var(--color-paper-deep);
+  color: var(--color-ink-soft);
+}
+.sf-chip-income {
+  background: color-mix(in srgb, var(--color-income) 16%, transparent);
+  color: var(--color-income);
+}
+.sf-chip-expense {
+  background: color-mix(in srgb, var(--color-expense) 14%, transparent);
+  color: var(--color-expense);
+}
+
+/* --- table --- */
+.sf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.sf-table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  border-bottom: 1px solid var(--color-line);
+  white-space: nowrap;
+}
+.sf-table td {
+  padding: 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-line) 60%, transparent);
+  color: var(--color-ink);
+  vertical-align: middle;
+}
+.sf-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* --- empty + loading --- */
+.sf-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--color-ink-soft);
+}
+.sf-empty-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.sf-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface-2);
+  border-radius: var(--radius-sf);
+}
+.sf-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-ink) 6%, transparent),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: sf-shimmer 1.4s infinite;
+}
+@keyframes sf-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* income / expense figure colors */
+.sf-pos {
+  color: var(--color-income);
+}
+.sf-neg {
+  color: var(--color-expense);
+}
