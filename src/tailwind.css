@@ -1,0 +1,164 @@
+@import 'tailwindcss';
+
+/* ==================================================================== *
+ *  SMART FINANCE TRACKER — multi-theme token system
+ *
+ *  Two layers:
+ *   1. SEMANTIC tokens (@theme below) — what components reference:
+ *      bg-paper, text-ink, text-accent-deep, text-income, font-display…
+ *      Each maps to a raw palette var (var(--c-*)).
+ *   2. PALETTE vars (--c-*) — redefined per [data-theme] on <html>.
+ *
+ *  Because the semantic token only holds `var(--c-foo)` (resolved at the
+ *  point of use), swapping the [data-theme] attribute re-resolves every
+ *  utility and component style instantly — no rebuild, no class swap.
+ *
+ *  Themes:  dawn (Hạ Long, Vietnam) · sakura (Japan) · imperial (China)
+ * ==================================================================== */
+@theme {
+  /* surfaces */
+  --color-paper: var(--c-paper);
+  --color-paper-deep: var(--c-paper-deep);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+
+  /* ink + lines */
+  --color-ink: var(--c-ink);
+  --color-ink-soft: var(--c-ink-soft);
+  --color-ink-faint: var(--c-ink-faint);
+  --color-line: var(--c-line);
+
+  /* brand accent */
+  --color-accent: var(--c-accent);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-accent-deep: var(--c-accent-deep);
+  --color-on-accent: var(--c-on-accent);
+
+  /* finance semantics */
+  --color-income: var(--c-income);
+  --color-expense: var(--c-expense);
+  --color-warn: var(--c-warn);
+
+  /* atmosphere (page glow + ambient motion) */
+  --color-glow-1: var(--c-glow-1);
+  --color-glow-2: var(--c-glow-2);
+
+  /* type */
+  --font-display: var(--c-font-display);
+  --font-body: var(--c-font-body);
+  --font-mono: var(--c-font-mono);
+
+  /* radii + motion */
+  --radius-sf: var(--c-radius);
+  --radius-sf-lg: var(--c-radius-lg);
+
+  --ease-sf: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ------------------------------------------------------------------ *
+ *  THEME · Dawn Bay (default) — a Vietnamese dawn over Hạ Long bay:
+ *  rice-paper mist, chàm indigo ink, emerald bay water, Hội An
+ *  lantern gold, sơn mài lacquer red.
+ * ------------------------------------------------------------------ */
+:root,
+:root[data-theme='dawn'] {
+  --c-paper: #f3efe4;
+  --c-paper-deep: #e9e2d2;
+  --c-surface: #fbf8f0;
+  --c-surface-2: #f3ece0;
+
+  --c-ink: #14323f;
+  --c-ink-soft: #46606a;
+  --c-ink-faint: #50686e;
+  --c-line: #ddd2bd;
+
+  --c-accent: #2c8c7e;
+  --c-accent-soft: #cfe0d4;
+  --c-accent-deep: #1c6358;
+  --c-on-accent: #fbf8f0;
+
+  --c-income: #1c6358;
+  --c-expense: #a8392e;
+  --c-warn: #8c6314;
+
+  --c-glow-1: #f1d6a0;
+  --c-glow-2: #cfe0d4;
+
+  --c-font-display: 'Be Vietnam Pro', system-ui, sans-serif;
+  --c-font-body: 'Be Vietnam Pro', system-ui, sans-serif;
+  --c-font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --c-radius: 10px;
+  --c-radius-lg: 18px;
+}
+
+/* ------------------------------------------------------------------ *
+ *  THEME · Sakura (Japan) — washi paper, sumi ink, a deep blossom
+ *  pink, calm matcha green. Mincho display over a humanist gothic.
+ * ------------------------------------------------------------------ */
+:root[data-theme='sakura'] {
+  --c-paper: #fbf7f2;
+  --c-paper-deep: #f1e8de;
+  --c-surface: #fffdfb;
+  --c-surface-2: #f7efe8;
+
+  --c-ink: #2a2630;
+  --c-ink-soft: #5a5360;
+  --c-ink-faint: #6a626f;
+  --c-line: #ece0d6;
+
+  --c-accent: #c9637f;
+  --c-accent-soft: #f6dde4;
+  --c-accent-deep: #9e3f5c;
+  --c-on-accent: #fffdfb;
+
+  --c-income: #4f7a4a;
+  --c-expense: #b5402f;
+  --c-warn: #966a1c;
+
+  --c-glow-1: #f8d7df;
+  --c-glow-2: #e7d3c4;
+
+  --c-font-display: 'Shippori Mincho', Georgia, serif;
+  --c-font-body: 'Zen Kaku Gothic New', system-ui, sans-serif;
+  --c-font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --c-radius: 6px;
+  --c-radius-lg: 12px;
+}
+
+/* ------------------------------------------------------------------ *
+ *  THEME · Imperial Jade (China) — warm silk ground (not the lazy
+ *  near-black), lacquer ink, imperial red, deep jade, gold leaf.
+ *  Serif SC display over a clean sans SC body.
+ * ------------------------------------------------------------------ */
+:root[data-theme='imperial'] {
+  --c-paper: #f5ebd8;
+  --c-paper-deep: #ebdfc6;
+  --c-surface: #fbf4e6;
+  --c-surface-2: #f2e7cf;
+
+  --c-ink: #2b201a;
+  --c-ink-soft: #5a4a3a;
+  --c-ink-faint: #6e5c49;
+  --c-line: #d9c9a6;
+
+  --c-accent: #b22222;
+  --c-accent-soft: #f0d9c9;
+  --c-accent-deep: #8e1b1b;
+  --c-on-accent: #fbf4e6;
+
+  --c-income: #0e6b5c;
+  --c-expense: #9a1f1f;
+  --c-warn: #8a6a1e;
+
+  --c-glow-1: #e9c76b;
+  --c-glow-2: #1f7a66;
+
+  --c-font-display: 'Noto Serif SC', Georgia, serif;
+  --c-font-body: 'Noto Sans SC', system-ui, sans-serif;
+  --c-font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --c-radius: 8px;
+  --c-radius-lg: 14px;
+}
